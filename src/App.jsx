@@ -1,44 +1,35 @@
-// src/App.jsx
-import { BrowserRouter as Router } from "react-router-dom";
-import { motion } from "framer-motion"; // Import motion from framer-motion
-import AppRoutes from "./routes/AppRoutes";
-import Loader from "./components/loader/Loader"; // Import the loader component
-import useStyleLoader from "./hooks/useStyleLoader"; // Import the custom hook
-import NotFound from "./components/main/ErrorPages/NotFound";
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 
 function App() {
+  const [count, setCount] = useState(0)
+
   return (
-    <Router>
-      <AppRoutesWithStyles />
-    </Router>
-  );
+    <>
+      <div>
+        <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.jsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
+  )
 }
 
-function AppRoutesWithStyles() {
-  const { styleLoaded, isLoading } = useStyleLoader(); // Use the hook to get the state
-
-  // Until the style is loaded, render a loading indicator
-  if (!styleLoaded || isLoading) {
-    return <Loader isLoading={true} />;
-  }
-
-  try {
-    return (
-      <motion.div
-        initial={{ opacity: 0 }} // Start with 0 opacity
-        animate={{ opacity: 1 }} // Animate to full opacity
-        exit={{ opacity: 0 }} // Fade out on exit (if needed)
-        transition={{ duration: 1 }} // Transition duration
-      >
-        <AppRoutes />
-      </motion.div>
-    );
-  } catch (error) {
-    if (error.message === "NotFound") {
-      return <NotFound />;
-    }
-    throw error; // Re-throw if it's not a NotFound error
-  }
-}
-
-export default App;
+export default App
